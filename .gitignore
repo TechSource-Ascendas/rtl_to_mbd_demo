@@ -36,3 +36,4 @@ AGENDA.md
 images/
 importhdl_examples/*/hdlimport/
 *_old.slx
+vivado_download.tcl

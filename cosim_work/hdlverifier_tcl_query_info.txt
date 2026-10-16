@@ -1,0 +1,12 @@
+      Verilog Instance: {/fir4_legacy}
+
+        In: {clk}                          Verilog
+
+        In: {rst}                          Verilog
+
+        In: {clk_en}                       Verilog
+
+        In: {x_in[15:0]}                   Verilog
+
+       Out: {y_out[18:0]}                  Verilog
+

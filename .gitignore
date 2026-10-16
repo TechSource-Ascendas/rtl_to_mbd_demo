@@ -1,0 +1,38 @@
+# MATLAB / Simulink caches
+slprj/
+*.slxc
+*.asv
+*.autosave
+*.mexw64
+
+# HDL Coder output (regenerated during the demo)
+hdlsrc/
+hdl_prj/
+hdl_prj_arty/
+
+# Vivado / xsim run artifacts
+.Xil/
+xsim.dir/
+xsim.dir.*/
+*.jou
+*.log
+*.pb
+*.wdb
+*.backup.*
+**/hdlverifier_wizard_project/wizprj.sim/
+**/hdlverifier_wizard_project/wizprj.cache/
+**/hdlverifier_wizard_project/wizprj.hw/
+**/hdlverifier_wizard_project/wizprj.ip_user_files/
+arty_a7_35t/vivado_bd_project/*.cache/
+arty_a7_35t/vivado_bd_project/*.hw/
+arty_a7_35t/vivado_bd_project/*.ip_user_files/
+arty_a7_35t/vivado_bd_project/*.gen/
+arty_a7_35t/vivado_bd_project/*.runs/
+arty_a7_35t/vivado_bd_project/*.sim/
+
+# ---- local working files ----
+_build/
+AGENDA.md
+images/
+importhdl_examples/*/hdlimport/
+*_old.slx

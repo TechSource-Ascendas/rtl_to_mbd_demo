@@ -1,0 +1,6 @@
+      Verilog Instance: {/tb_cosim_monitor}
+
+       Out: {x_mon[15:0]}                  Verilog
+
+       Out: {y_mon[18:0]}                  Verilog
+

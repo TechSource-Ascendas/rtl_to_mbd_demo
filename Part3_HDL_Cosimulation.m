@@ -1,4 +1,4 @@
-%[text] # Part 4 - HDL Cosimulation: Run Your Verilog Inside Simulink
+%[text] # Part 3 - HDL Cosimulation: Run Your Verilog Inside Simulink
 %[text] **Goal:** verify the hand-written `fir4_legacy.v` against the Part 1 Simulink model, bit for bit, using the Simulink test bench you already have - no SystemVerilog testbench to write.
 %[text] With HDL cosimulation, Simulink generates the stimulus and checks the results while an HDL simulator executes the RTL. HDL Verifier keeps the two in lock step: every Simulink step, inputs are forced into the simulator, the simulator advances by one clock, and outputs come back. Supported simulators include **Vivado Simulator** (used here - it ships with Vivado, no extra license), Siemens Questa/ModelSim, Cadence Xcelium and Synopsys VCS.
 %[text] Typical uses: proving legacy RTL matches the model (this part), verifying HDL Coder output, mixing RTL blocks with Simulink blocks, and simulating the real RTL inside the Part 2 black box.
@@ -126,16 +126,9 @@ maxError = max(abs(double(out.logsout.get("err").Values.Data)))
 %[text] ### 9C. Your testbench calls MATLAB
 %[text] With Questa/ModelSim or Xcelium, `matlabcp` (MATLAB as a component) and `matlabtb` (MATLAB as a test bench) let a Verilog TB call a MATLAB function every clock or on an event, so the TB stays the master. This workflow is **not supported with Vivado Simulator**.
 %%
-%[text] ## How it all fits together
-%[text:table]
-%[text] | Part | What you did | Tool |
-%[text] | --- | --- | --- |
-%[text] | 1 | Equation -> Simulink model -> fixed point -> Verilog | Simulink, Fixed-Point Designer, HDL Coder |
-%[text] | 2 | Existing Verilog -> Simulink (import) or reused verbatim (BlackBox) | HDL Coder |
-%[text] | 3 | New board + reference design -> bitstream -> MATLAB access over JTAG | HDL Coder, HDL Verifier, Vivado |
-%[text] | 4 | Real RTL verified against the Simulink model | HDL Verifier + Vivado Simulator |
-%[text:table]
-%[text] Combining 2 and 4: put this HDL Cosimulation block inside the Part 2 BlackBox subsystem instead of the behavioral model. HDL Coder still instantiates `fir4_legacy` in the generated code, and Simulink now simulates the real RTL - one model, no gap between what you simulate and what you build.
+%[text] ## Combining with Part 2
+%[text] Put this HDL Cosimulation block inside the Part 2 BlackBox subsystem instead of the behavioral model. HDL Coder still instantiates `fir4_legacy` in the generated code, and Simulink now simulates the real RTL - one model, no gap between what you simulate and what you build.
+%[text] **Next:** Part 4 takes the verified design onto a real FPGA board.
 
 %[appendix]{"version":"1.0"}
 %---

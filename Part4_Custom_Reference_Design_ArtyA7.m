@@ -1,4 +1,4 @@
-%[text] # Part 3 - Custom Board and Reference Design for the Digilent Arty A7-35T
+%[text] # Part 4 - Custom Board and Reference Design for the Digilent Arty A7-35T
 %[text] **Goal:** teach HDL Coder about a board it does not know well, so that any Simulink DUT can be dropped into a ready-made Vivado design, built into a bitstream and talked to from MATLAB - all from the HDL Workflow Advisor GUI.
 %[text] **Why a custom one?** HDL Coder ships a plugin called *Xilinx Artix-7 35T Arty development board*, but it targets the original Arty, uses `LVCMOS15` on 3\.3 V banks, labels the slide switches as push buttons, and its only reference design has no AXI bus (so MATLAB cannot read or write DUT registers). We build our own:
 %[text] - correct Arty A7-35T part `xc7a35ticsg324-1L` and `LVCMOS33` pins for LEDs, slide switches, push buttons and RGB LED
@@ -184,6 +184,17 @@ maxError = max(abs(yRead - double(fi(vals, 1, 16, 15))))
 %[text] - Vivado part: draw the block design once in the IP Integrator GUI and export it as Tcl.
 %[text] - MATLAB part: two fill-in-the-blanks files (`plugin_board.m`, `plugin_rd.m`), two 3-line registration files, one XDC.
 %[text] - From then on every Simulink DUT for this board is: Workflow Advisor > pick board > map ports > bitstream > program > access from MATLAB \
+%%
+%[text] ## How it all fits together
+%[text:table]
+%[text] | Part | What you did | Tool |
+%[text] | --- | --- | --- |
+%[text] | 1 | Equation -> Simulink model -> fixed point -> Verilog, plus an FSM in Stateflow | Simulink, Stateflow, Fixed-Point Designer, HDL Coder |
+%[text] | 2 | Existing Verilog -> Simulink (import) or reused verbatim (BlackBox) | HDL Coder |
+%[text] | 3 | Real RTL verified against the Simulink model, with Simulink or your own Verilog testbench driving it | HDL Verifier + Vivado Simulator |
+%[text] | 4 | New board + reference design -> bitstream -> MATLAB access over JTAG on a real Arty A7-35T | HDL Coder, HDL Verifier, Vivado |
+%[text:table]
+%[text] The same FIR filter went through every step: designed in Simulink, compared bit for bit with hand-written Verilog, verified in cosimulation, and run on the FPGA, where the values read back over JTAG match exactly.
 
 %[appendix]{"version":"1.0"}
 %---

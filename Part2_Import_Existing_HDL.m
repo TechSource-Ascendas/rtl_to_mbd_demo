@@ -1,7 +1,7 @@
 %[text] # Part 2 - Bringing Existing Verilog into Simulink
 %[text] You already have proven RTL. Moving to Simulink does not mean rewriting it. There are three different things you can do with an existing `.v` file, and they answer three different questions:
 %[text:table]
-%[text] |  | **A. importhdl** | **B. BlackBox subsystem (+ DocBlock)** | **C. HDL Cosimulation (Part 4)** |
+%[text] |  | **A. importhdl** | **B. BlackBox subsystem (+ DocBlock)** | **C. HDL Cosimulation (Part 3)** |
 %[text] | --- | --- | --- | --- |
 %[text] | Question it answers | "Turn my RTL into a Simulink model" | "Reuse my RTL unchanged inside a new Simulink design" | "Run my real RTL against the Simulink model" |
 %[text] | What happens to the Verilog | **Translated** into native Simulink blocks | **Copied verbatim** into the generated HDL and instantiated | **Executed** in an HDL simulator (Vivado Simulator, Questa, Xcelium, VCS) |
@@ -107,7 +107,7 @@ maxError = max(abs(double(out.logsout.get("err").Values.Data)))
 %[text] 3. Set `EntityName` = `fir4_legacy`, `ClockInputPort` = `clk`, `ResetInputPort` = `rst`, `ClockEnableInputPort` = `clk_en` so the instance matches your module's port names \
 %[text] ![HDL Block Properties: BlackBox](text:image:863906)
 %[text] ### B2. Give Simulink something to simulate
-%[text] HDL Coder ignores the contents of a BlackBox, but Simulink still simulates them. Put a behavioral model inside - here the Part 1 filter plus one Unit Delay for the output register. (In Part 4 you can replace it with an HDL Cosimulation block that runs the real `fir4_legacy.v`.)
+%[text] HDL Coder ignores the contents of a BlackBox, but Simulink still simulates them. Put a behavioral model inside - here the Part 1 filter plus one Unit Delay for the output register. (In Part 3 you can replace it with an HDL Cosimulation block that runs the real `fir4_legacy.v`.)
 %[text] ### B3. Carry the Verilog in a DocBlock (optional)
 %[text] 1. Inside the black box add a **DocBlock** (Model-Wide Utilities). Double-click it and paste the complete Verilog module.
 %[text] 2. Right-click the DocBlock > **HDL Code** > **HDL Block Properties**: Architecture = `HDLText`, TargetLanguage = `Verilog` \
@@ -126,12 +126,13 @@ maxError = max(abs(double(out.logsout.get("err").Values.Data)))
 %[text] ```
 open_system(fullfile(demoRoot, "models", "fir_blackbox.slx"))
 makehdl("fir_blackbox/HDL_DUT")
-%[text] **The catch:** the behavioral model and the Verilog are two separate descriptions. If they disagree, Simulink shows one thing and the FPGA does another. That is exactly the gap that HDL cosimulation closes - see Part 4.
+%[text] **The catch:** the behavioral model and the Verilog are two separate descriptions. If they disagree, Simulink shows one thing and the FPGA does another. That is exactly the gap that HDL cosimulation closes - see Part 3.
 %%
 %[text] ## Which one should you use?
 %[text] - Legacy block you will keep evolving, simple single-clock RTL: **importhdl**, then refactor the imported model toward the algorithm and verify with a comparison test bench like A3.
 %[text] - Proven block or vendor IP you will not touch: **BlackBox** (+ DocBlock if you want the code inside the model).
-%[text] - Any time Simulink and RTL must be shown to agree: **HDL Cosimulation** (Part 4), possibly placed inside the BlackBox \
+%[text] - Any time Simulink and RTL must be shown to agree: **HDL Cosimulation** (Part 3), possibly placed inside the BlackBox \
+%[text] **Next:** Part 3 runs `fir4_legacy.v` itself against the Simulink model.
 
 %[appendix]{"version":"1.0"}
 %---
